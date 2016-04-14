@@ -97,6 +97,7 @@ angular
       restrict: 'E',
       require: '^mwlCalendar',
       scope: {
+        manager: '=',
         events: '=',
         viewDate: '=',
         onEventClick: '=',

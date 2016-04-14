@@ -55,6 +55,7 @@ angular
       templateUrl: calendarConfig.templates.calendarHourList,
       controller: 'MwlCalendarHourListCtrl as vm',
       scope: {
+        manager: '=',
         viewDate: '=',
         dayViewStart: '=',
         dayViewEnd: '=',

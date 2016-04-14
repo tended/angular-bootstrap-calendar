@@ -114,6 +114,7 @@ angular
       templateUrl: calendarConfig.templates.calendar,
       restrict: 'E',
       scope: {
+        manager: '=',
         events: '=',
         view: '=',
         viewTitle: '=?',

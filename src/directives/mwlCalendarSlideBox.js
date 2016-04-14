@@ -32,6 +32,7 @@ angular
         scope.isYearView = !!ctrls[1];
       },
       scope: {
+        manager: '=',
         isOpen: '=',
         events: '=',
         onEventClick: '=',

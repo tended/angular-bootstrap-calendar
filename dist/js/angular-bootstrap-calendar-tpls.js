@@ -370,6 +370,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      templateUrl: calendarConfig.templates.calendar,
 	      restrict: 'E',
 	      scope: {
+	        manager: '=',
 	        events: '=',
 	        view: '=',
 	        viewTitle: '=?',
@@ -481,6 +482,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      restrict: 'E',
 	      require: '^mwlCalendar',
 	      scope: {
+	        manager: '=',
 	        events: '=',
 	        viewDate: '=',
 	        onEventClick: '=',
@@ -558,6 +560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      templateUrl: calendarConfig.templates.calendarHourList,
 	      controller: 'MwlCalendarHourListCtrl as vm',
 	      scope: {
+	        manager: '=',
 	        viewDate: '=',
 	        dayViewStart: '=',
 	        dayViewEnd: '=',
@@ -673,6 +676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      restrict: 'E',
 	      require: '^mwlCalendar',
 	      scope: {
+	        manager: '=',
 	        events: '=',
 	        viewDate: '=',
 	        onEventClick: '=',
@@ -733,6 +737,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        scope.isYearView = !!ctrls[1];
 	      },
 	      scope: {
+	        manager: '=',
 	        isOpen: '=',
 	        events: '=',
 	        onEventClick: '=',
@@ -835,6 +840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      restrict: 'E',
 	      require: '^mwlCalendar',
 	      scope: {
+	        manager: '=',
 	        events: '=',
 	        viewDate: '=',
 	        onEventClick: '=',
@@ -929,6 +935,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      restrict: 'E',
 	      require: '^mwlCalendar',
 	      scope: {
+	        manager: '=',
 	        events: '=',
 	        viewDate: '=',
 	        onEventClick: '=',
