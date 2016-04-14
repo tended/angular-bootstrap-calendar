@@ -6,11 +6,13 @@ beforeEach(angular.mock.module('mwl.calendar'));
 
 describe('calendarHelper', function() {
 
-  var calendarHelper, events, clock, calendarDay, calendarConfig;
+  var calendarHelper, events, clock, calendarDay, calendarConfig, $templateCache, $rootScope;
 
-  beforeEach(inject(function(_calendarHelper_, _calendarConfig_) {
+  beforeEach(inject(function(_calendarHelper_, _calendarConfig_, _$templateCache_, _$rootScope_) {
     calendarHelper = _calendarHelper_;
     calendarConfig = _calendarConfig_;
+    $templateCache = _$templateCache_;
+    $rootScope = _$rootScope_;
 
     events = [{
       title: 'Event 1',
@@ -130,6 +132,18 @@ describe('calendarHelper', function() {
           recursOn: 'invalid'
         }, periodStart, periodEnd);
       }).to.throw();
+
+    });
+
+    it('should not throw an error when recursOn is an empty string', function() {
+
+      expect(function() {
+        calendarHelper.eventIsInPeriod({
+          startsAt: new Date(),
+          endsAt: new Date(),
+          recursOn: ''
+        }, periodStart, periodEnd);
+      }).not.to.throw();
 
     });
 
@@ -478,6 +492,19 @@ describe('calendarHelper', function() {
 
     });
 
+    describe('recurring events', function() {
+
+      it('should display recuring events', function() {
+        weekView = calendarHelper.getWeekView([{
+          startsAt: new Date(2016, 0, 9, 1),
+          recursOn: 'month'
+        }], new Date(2016, 1, 9, 1));
+        expect(weekView.events[0].daySpan).to.equal(1);
+        expect(weekView.events[0].dayOffset).to.equal(2);
+      });
+
+    });
+
   });
 
   describe('getDayView', function() {
@@ -494,6 +521,9 @@ describe('calendarHelper', function() {
       }, {
         startsAt: new Date('October 20, 2015 11:00:00'),
         endsAt: new Date('October 20, 2015 12:00:00')
+      }, {
+        startsAt: new Date('October 20, 2015 22:00:00'),
+        endsAt: new Date('October 20, 2015 23:30:00')
       }];
 
       dayView = calendarHelper.getDayView(
@@ -523,6 +553,10 @@ describe('calendarHelper', function() {
 
     it('should set the height correctly if the event finishes before the end of the day', function() {
       expect(dayView[2].height).to.equal(60);
+    });
+
+    it('should set the height correctly of events that finish within an hour after the day view end', function() {
+      expect(dayView[3].height).to.equal(90);
     });
 
     it('should never exceed the maximum height of the calendar', function() {
@@ -624,6 +658,12 @@ describe('calendarHelper', function() {
   });
 
   describe('formatDate', function() {
+
+    var defaultFormat;
+    beforeEach(function() {
+      defaultFormat = calendarConfig.dateFormatter;
+    });
+
     it('should format a date using angular dateFilter', function() {
       calendarConfig.dateFormatter = 'angular';
       var formattedDate = calendarHelper.formatDate(new Date(), 'yyyy-mm-dd');
@@ -634,6 +674,33 @@ describe('calendarHelper', function() {
       calendarConfig.dateFormatter = 'moment';
       var formattedDate = calendarHelper.formatDate(new Date(), 'YYYY-MM-DD');
       expect(formattedDate).to.equal('2015-10-20');
+    });
+
+    it('should throw an error when given an invalid date formatter', function() {
+      calendarConfig.dateFormatter = 'unknown';
+      expect(function() {
+        calendarHelper.formatDate(new Date(), 'YYYY-MM-DD');
+      }).to.throw();
+    });
+
+    afterEach(function() {
+      calendarConfig.dateFormatter = defaultFormat;
+    });
+
+  });
+
+  describe('loadTemplates', function() {
+
+    it('should return a promise with all loaded templates', function(done) {
+      calendarConfig.templates = {
+        template: 'test.html'
+      };
+      $templateCache.put('test.html', 'contents');
+      calendarHelper.loadTemplates().then(function(result) {
+        expect(result).to.deep.equal(['contents']);
+        done();
+      });
+      $rootScope.$apply();
     });
 
   });

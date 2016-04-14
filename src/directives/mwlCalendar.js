@@ -4,7 +4,7 @@ var angular = require('angular');
 
 angular
   .module('mwl.calendar')
-  .controller('MwlCalendarCtrl', function($scope, $log, $timeout, $attrs, $locale, moment, calendarTitle) {
+  .controller('MwlCalendarCtrl', function($scope, $log, $timeout, $attrs, $locale, moment, calendarTitle, calendarHelper) {
 
     var vm = this;
 
@@ -40,12 +40,12 @@ angular
       }
 
       if (!angular.isDate(event.startsAt)) {
-        $log.warn('Bootstrap calendar: ', 'Event startsAt should be a javascript date object', event);
+        $log.warn('Bootstrap calendar: ', 'Event startsAt should be a javascript date object. Do `new Date(event.startsAt)` to fix it.', event);
       }
 
       if (angular.isDefined(event.endsAt)) {
         if (!angular.isDate(event.endsAt)) {
-          $log.warn('Bootstrap calendar: ', 'Event endsAt should be a javascript date object', event);
+          $log.warn('Bootstrap calendar: ', 'Event endsAt should be a javascript date object. Do `new Date(event.endsAt)` to fix it.', event);
         }
         if (moment(event.startsAt).isAfter(moment(event.endsAt))) {
           $log.warn('Bootstrap calendar: ', 'Event cannot start after it finishes', event);
@@ -87,24 +87,31 @@ angular
       }
     }
 
-    var eventsWatched = false;
+    calendarHelper.loadTemplates().then(function() {
+      vm.templatesLoaded = true;
 
-    //Refresh the calendar when any of these variables change.
-    $scope.$watchGroup([
-      'vm.viewDate',
-      'vm.view',
-      'vm.cellIsOpen',
-      function() {
-        return moment.locale() + $locale.id; //Auto update the calendar when the locale changes
-      }
-    ], function() {
-      if (!eventsWatched) {
-        eventsWatched = true;
-        //need to deep watch events hence why it isn't included in the watch group
-        $scope.$watch('vm.events', refreshCalendar, true); //this will call refreshCalendar when the watcher starts (i.e. now)
-      } else {
-        refreshCalendar();
-      }
+      var eventsWatched = false;
+
+      //Refresh the calendar when any of these variables change.
+      $scope.$watchGroup([
+        'vm.viewDate',
+        'vm.view',
+        'vm.cellIsOpen',
+        function() {
+          return moment.locale() + $locale.id; //Auto update the calendar when the locale changes
+        }
+      ], function() {
+        if (!eventsWatched) {
+          eventsWatched = true;
+          //need to deep watch events hence why it isn't included in the watch group
+          $scope.$watch('vm.events', refreshCalendar, true); //this will call refreshCalendar when the watcher starts (i.e. now)
+        } else {
+          refreshCalendar();
+        }
+      });
+
+    }).catch(function(err) {
+      $log.error('Could not load all calendar templates', err);
     });
 
   })
@@ -119,9 +126,10 @@ angular
         view: '=',
         viewTitle: '=?',
         viewDate: '=',
-        editEventHtml: '=',
-        deleteEventHtml: '=',
-        cellIsOpen: '=',
+        editEventHtml: '=?',
+        deleteEventHtml: '=?',
+        cellIsOpen: '=?',
+        slideBoxDisabled: '=?',
         onEventClick: '&',
         onEventTimesChanged: '&',
         onEditEventClick: '&',

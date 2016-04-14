@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.org/mattlewis92/angular-bootstrap-calendar.svg?branch=master)](https://travis-ci.org/mattlewis92/angular-bootstrap-calendar)
 [![Bower version](https://badge.fury.io/bo/angular-bootstrap-calendar.svg)](http://badge.fury.io/bo/angular-bootstrap-calendar)
 [![npm version](https://badge.fury.io/js/angular-bootstrap-calendar.svg)](http://badge.fury.io/js/angular-bootstrap-calendar)
-[![peerDependency Status](https://david-dm.org/mattlewis92/angular-bootstrap-calendar/peer-status.svg)](https://david-dm.org/mattlewis92/angular-bootstrap-calendar#info=peerDependencies)
 [![devDependency Status](https://david-dm.org/mattlewis92/angular-bootstrap-calendar/dev-status.svg)](https://david-dm.org/mattlewis92/angular-bootstrap-calendar#info=devDependencies)
 [![GitHub issues](https://img.shields.io/github/issues/mattlewis92/angular-bootstrap-calendar.svg)](https://github.com/mattlewis92/angular-bootstrap-calendar/issues)
 [![GitHub stars](https://img.shields.io/github/stars/mattlewis92/angular-bootstrap-calendar.svg)](https://github.com/mattlewis92/angular-bootstrap-calendar/stargazers)
@@ -32,9 +31,9 @@ Pull requests are welcome.
 
 ## Installation
 
-The calendar has a few dependencies, these are as follows, and must be included BEFORE the plugin files:
+The calendar has a few dependencies, these are as follows, and must be included before this libraries files:
 
-* [AngularJS](https://angularjs.org/) 1.3.x or 1.4.x are supported
+* [AngularJS](https://angularjs.org/) 1.3.x, 1.4.x and 1.5.x are supported
 * [Bootstrap](http://getbootstrap.com/) 3+ (CSS only)
 * [Moment.js](http://momentjs.com/)
 * [ui-bootstrap](http://angular-ui.github.io/bootstrap/) (0.14.0+, optional, include for collapse animations and tooltips.
@@ -163,7 +162,7 @@ This expression is called when an event delete link is clicked on the calendar. 
 
 ### on-timespan-click
 
-This expression is called when a month, day or hour on the calendar is clicked on the year, month and day views respectively. `calendarDate` can be used in the expression and contains the start of the month, day or hour that was clicked on.
+This expression is called when a month, day or hour on the calendar is clicked on the year, month and day views respectively. `calendarDate` can be used in the expression and contains the start of the month, day or hour that was clicked on. If on the month or year view `calendarCell` will contain cell data for the clicked day or month which you can then modify.
 
 ### cell-is-open
 
@@ -189,6 +188,10 @@ An optional expression that is evaluated when the view is changed by clicking on
 
 An optional expression that is evaluated on each cell generated for the year and month views. `calendarCell` can be used in the expression and is an object containing the current cell data which you can modify (see the `calendarHelper` service source code or just console.log it to see what data is available). If you add the `cssClass` property it will be applied to the cell.
 
+### slide-box-disabled
+
+If set it true it will disable the slidebox on the month and year views
+
 ## Configuring the calendar default config
 
 You can easily customise the date formats and i18n strings used throughout the calendar by using the `calendarConfig` value. Please note that these example formats are those used by moment.js and these won't work if using angular as the date formatter. Example usage:
@@ -205,9 +208,9 @@ angular.module('myModule')
 
     calendarConfig.allDateFormats.moment.date.hour = 'HH:mm'; //this will configure times on the day view to display in 24 hour format rather than the default of 12 hour
 
-    calendarConfig.allDateFormats.moment.title = 'ddd D MMM'; //this will configure the day view title to be shorter
+    calendarConfig.allDateFormats.moment.title.day = 'ddd D MMM'; //this will configure the day view title to be shorter
 
-    calendarConfig.i18nStrings.eventsLabel = 'Events'; //This will set the events label on the day view
+    calendarConfig.i18nStrings.weekNumber = 'Week {week}'; //This will set the week number hover label on the month view
 
     calendarConfig.displayAllMonthEvents = true; //This will display all events on a month view even if they're not in the current month. Default false.
 

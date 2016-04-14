@@ -3,18 +3,20 @@
 var angular = require('angular'),
   moment = require('moment');
 
-describe('mwlCalendarDay directive', function() {
+describe('mwlCalendarHourList directive', function() {
   var MwlCalendarCtrl,
     element,
     scope,
     $rootScope,
     directiveScope,
     showModal,
+    clock,
     template =
       '<mwl-calendar-hour-list ' +
         'day-view-start="dayViewStart" ' +
         'day-view-end="dayViewEnd" ' +
         'day-view-split="dayViewSplit || 30" ' +
+        'on-event-times-changed="eventDropped(calendarEvent, calendarDate, calendarNewEventStart, calendarNewEventEnd)" ' +
       '></mwl-calendar-hour-list>';
 
   function prepareScope(vm) {
@@ -37,6 +39,7 @@ describe('mwlCalendarDay directive', function() {
   beforeEach(angular.mock.module('mwl.calendar'));
 
   beforeEach(angular.mock.inject(function($compile, _$rootScope_) {
+    clock = sinon.useFakeTimers(new Date('October 20, 2015 11:10:00').getTime());
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
     prepareScope(scope);
@@ -46,6 +49,10 @@ describe('mwlCalendarDay directive', function() {
     directiveScope = element.isolateScope();
     MwlCalendarCtrl = directiveScope.vm;
   }));
+
+  afterEach(function() {
+    clock.restore();
+  });
 
   it('should define a list of hours', function() {
     expect(MwlCalendarCtrl.hours.length).to.equal(17);
@@ -58,6 +65,21 @@ describe('mwlCalendarDay directive', function() {
     scope.$broadcast('calendar.refreshView');
     expect(MwlCalendarCtrl.hours.length).to.equal(23);
     moment.locale.restore();
+  });
+
+  it('should call the event times changed callback when an event is dropped', function() {
+    var event = {
+      startsAt: moment().toDate(),
+      endsAt: moment().add(1, 'day').toDate()
+    };
+    var date = moment().add(2, 'days').toDate();
+    MwlCalendarCtrl.onEventTimesChanged = sinon.spy();
+    MwlCalendarCtrl.eventDropped(event, date);
+    var calledWith = MwlCalendarCtrl.onEventTimesChanged.getCall(0).args[0];
+    expect(calledWith.calendarEvent).to.equal(event);
+    expect(calledWith.calendarDate.getTime()).to.equal(date.getTime());
+    expect(calledWith.calendarNewEventStart.getTime()).to.equal(date.getTime());
+    expect(calledWith.calendarNewEventEnd.getTime()).to.equal(moment().add(3, 'days').toDate().getTime());
   });
 
 });

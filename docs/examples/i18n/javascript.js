@@ -9,8 +9,7 @@ angular
     vm.viewDate = moment().startOf('month').toDate();
 
     calendarConfig.dateFormatter = 'moment'; // use moment instead of angular for formatting dates
-    calendarConfig.i18nStrings.eventsLabel = 'Des événements';
-    calendarConfig.i18nStrings.timeLabel = 'Temps';
+    var originali18n = angular.copy(calendarConfig.i18nStrings);
     calendarConfig.i18nStrings.weekNumber = 'Semaine {week}';
 
     $window.moment = $window.moment || moment;
@@ -25,6 +24,7 @@ angular
 
     $scope.$on('$destroy', function() {
       moment.locale('en');
+      calendarConfig.i18nStrings = originali18n;
     });
 
   });

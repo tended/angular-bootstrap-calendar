@@ -4,13 +4,15 @@ var angular = require('angular');
 
 angular
   .module('mwl.calendar')
-  .factory('calendarHelper', function(dateFilter, moment, calendarConfig) {
+  .factory('calendarHelper', function($q, $templateRequest, dateFilter, moment, calendarConfig) {
 
     function formatDate(date, format) {
       if (calendarConfig.dateFormatter === 'angular') {
         return dateFilter(moment(date).toDate(), format);
       } else if (calendarConfig.dateFormatter === 'moment') {
         return moment(date).format(format);
+      } else {
+        throw new Error('Unknown date formatter: ' + calendarConfig.dateFormatter);
       }
       return date;
     }
@@ -23,16 +25,15 @@ angular
       return moment(oldEnd).add(diffInSeconds);
     }
 
-    function eventIsInPeriod(event, periodStart, periodEnd) {
+    function getRecurringEventPeriod(eventPeriod, recursOn, containerPeriodStart) {
 
-      var eventStart = moment(event.startsAt);
-      var eventEnd = moment(event.endsAt || event.startsAt);
-      periodStart = moment(periodStart);
-      periodEnd = moment(periodEnd);
+      var eventStart = moment(eventPeriod.start);
+      var eventEnd = moment(eventPeriod.end);
+      var periodStart = moment(containerPeriodStart);
 
-      if (angular.isDefined(event.recursOn)) {
+      if (recursOn) {
 
-        switch (event.recursOn) {
+        switch (recursOn) {
           case 'year':
             eventStart.set({
               year: periodStart.year()
@@ -47,12 +48,25 @@ angular
             break;
 
           default:
-            throw new Error('Invalid value (' + event.recursOn + ') given for recurs on. Can only be year or month.');
+            throw new Error('Invalid value (' + recursOn + ') given for recurs on. Can only be year or month.');
         }
 
-        eventEnd = adjustEndDateFromStartDiff(event.startsAt, eventStart, eventEnd);
+        eventEnd = adjustEndDateFromStartDiff(eventPeriod.start, eventStart, eventEnd);
 
       }
+
+      return {start: eventStart, end: eventEnd};
+
+    }
+
+    function eventIsInPeriod(event, periodStart, periodEnd) {
+
+      periodStart = moment(periodStart);
+      periodEnd = moment(periodEnd);
+
+      var eventPeriod = getRecurringEventPeriod({start: event.startsAt, end: event.endsAt || event.startsAt}, event.recursOn, periodStart);
+      var eventStart = eventPeriod.start;
+      var eventEnd = eventPeriod.end;
 
       return (eventStart.isAfter(periodStart) && eventStart.isBefore(periodEnd)) ||
         (eventEnd.isAfter(periodStart) && eventEnd.isBefore(periodEnd)) ||
@@ -184,12 +198,18 @@ angular
 
       var eventsSorted = filterEventsInPeriod(events, startOfWeek, endOfWeek).map(function(event) {
 
-        var eventStart = moment(event.startsAt).startOf('day');
-        var eventEnd = moment(event.endsAt || event.startsAt).startOf('day');
         var weekViewStart = moment(startOfWeek).startOf('day');
         var weekViewEnd = moment(endOfWeek).startOf('day');
-        var offset, span;
 
+        var eventPeriod = getRecurringEventPeriod({
+          start: moment(event.startsAt).startOf('day'),
+          end: moment(event.endsAt || event.startsAt).startOf('day')
+        }, event.recursOn, weekViewStart);
+
+        var eventStart = eventPeriod.start;
+        var eventEnd = eventPeriod.end;
+
+        var offset;
         if (eventStart.isBefore(weekViewStart) || eventStart.isSame(weekViewStart)) {
           offset = 0;
         } else {
@@ -204,9 +224,7 @@ angular
           eventStart = weekViewStart;
         }
 
-        span = moment(eventEnd).diff(eventStart, 'days') + 1;
-
-        event.daySpan = span;
+        event.daySpan = moment(eventEnd).diff(eventStart, 'days') + 1;
         event.dayOffset = offset;
 
         return event;
@@ -222,7 +240,7 @@ angular
       var dayEndHour = moment(dayViewEnd || '23:00', 'HH:mm').hours();
       var hourHeight = (60 / dayViewSplit) * 30;
       var calendarStart = moment(viewDate).startOf('day').add(dayStartHour, 'hours');
-      var calendarEnd = moment(viewDate).startOf('day').add(dayEndHour, 'hours');
+      var calendarEnd = moment(viewDate).startOf('day').add(dayEndHour + 1, 'hours');
       var calendarHeight = (dayEndHour - dayStartHour + 1) * hourHeight;
       var hourHeightMultiplier = hourHeight / 60;
       var buckets = [];
@@ -249,7 +267,7 @@ angular
           if (!event.endsAt) {
             event.height = 30;
           } else {
-            event.height = moment(event.endsAt || event.startsAt).diff(diffStart, 'minutes') * hourHeightMultiplier;
+            event.height = moment(event.endsAt).diff(moment(diffStart), 'minutes') * hourHeightMultiplier;
           }
         }
 
@@ -321,6 +339,17 @@ angular
       return ((dayViewEndM.diff(dayViewStartM, 'hours') + 1) * hourHeight) + 2;
     }
 
+    function loadTemplates() {
+
+      var templatePromises = Object.keys(calendarConfig.templates).map(function(key) {
+        var templateUrl = calendarConfig.templates[key];
+        return $templateRequest(templateUrl);
+      });
+
+      return $q.all(templatePromises);
+
+    }
+
     return {
       getWeekDayNames: getWeekDayNames,
       getYearView: getYearView,
@@ -331,6 +360,7 @@ angular
       getDayViewHeight: getDayViewHeight,
       adjustEndDateFromStartDiff: adjustEndDateFromStartDiff,
       formatDate: formatDate,
+      loadTemplates: loadTemplates,
       eventIsInPeriod: eventIsInPeriod //expose for testing only
     };
 

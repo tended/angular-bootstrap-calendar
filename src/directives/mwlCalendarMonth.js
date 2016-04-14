@@ -38,6 +38,7 @@ angular
       if (!dayClickedFirstRun) {
         vm.onTimespanClick({
           calendarDate: day.date.toDate(),
+          calendarCell: day,
           $event: $event
         });
         if ($event && $event.defaultPrevented) {
@@ -108,7 +109,8 @@ angular
         deleteEventHtml: '=',
         cellIsOpen: '=',
         onTimespanClick: '=',
-        cellModifier: '='
+        cellModifier: '=',
+        slideBoxDisabled: '='
       },
       controller: 'MwlCalendarMonthCtrl as vm',
       link: function(scope, element, attrs, calendarCtrl) {

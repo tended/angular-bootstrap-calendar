@@ -55,4 +55,10 @@
 }, {
   "key": "draggable-external-events",
   "label": "Draggable external events"
+}, {
+  "key": "slide-box-disabled",
+  "label": "Disable the slidebox"
+}, {
+  "key": "grouping-events",
+  "label": "Group month view events"
 }]

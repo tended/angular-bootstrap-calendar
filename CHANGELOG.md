@@ -1,3 +1,178 @@
+<a name="0.19.6"></a>
+## [0.19.6](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.19.5...v0.19.6) (2016-03-31)
+
+
+### Bug Fixes
+
+* **templates:** replace the default interpolation symbol with the user configured one ([73a052e](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/73a052e)), closes [#309](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/309)
+
+
+
+<a name="0.19.5"></a>
+## [0.19.5](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.19.4...v0.19.5) (2016-03-26)
+
+
+### Bug Fixes
+
+* **weekTitle:** use the correct year when the week spans 2 years ([638c741](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/638c741))
+
+
+
+<a name="0.19.4"></a>
+## [0.19.4](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.19.3...v0.19.4) (2016-03-22)
+
+
+### Bug Fixes
+
+* **bower.json:** looser dependency versions of moment and bootstrap ([7ee084b](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/7ee084b))
+* **draggable:** disable the cursor when dragging disabled events ([834e1ee](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/834e1ee)), closes [#307](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/307)
+* **droppable:** allow the drop active class to be customised ([fc85410](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/fc85410))
+* **resizeable:** disable the cursor when resizing disabled events ([ad9beb7](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/ad9beb7)), closes [#307](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/307)
+
+
+
+<a name="0.19.3"></a>
+## [0.19.3](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.19.2...v0.19.3) (2016-03-11)
+
+
+### Bug Fixes
+
+* **dayView:** correctly display events that finish within 1 hour after the day view end ([3fc4104](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/3fc4104)), closes [#302](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/302)
+
+
+
+<a name="0.19.2"></a>
+## [0.19.2](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.19.1...v0.19.2) (2016-03-08)
+
+
+### Bug Fixes
+
+* **recursOn:** allow recursOn to be an empty string ([4bbde4e](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/4bbde4e)), closes [#300](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/300)
+
+
+
+<a name="0.19.1"></a>
+## [0.19.1](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.19.0...v0.19.1) (2016-02-29)
+
+
+### Bug Fixes
+
+* **monthView:** get the correct week number on hover of the month view week ([dac97e7](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/dac97e7)), closes [#298](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/298)
+
+
+
+<a name="0.19.0"></a>
+# [0.19.0](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.9...v0.19.0) (2016-02-27)
+
+
+### Bug Fixes
+
+* **weekViewWithTimes:** ensure `on-timespan-click` is called with the correct date ([66277a1](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/66277a1)), closes [#291](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/291)
+
+### Features
+
+* **dayView:** remove the day view column header ([e624c68](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/e624c68)), closes [#293](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/293)
+* **slide-box-disabled:** add new option to disable the slidebox on the month and year views ([da92130](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/da92130)), closes [#292](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/292)
+
+
+### BREAKING CHANGES
+
+* dayView: the day view column header has been removed
+
+
+
+<a name="0.18.9"></a>
+## [0.18.9](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.8...v0.18.9) (2016-02-16)
+
+
+### Bug Fixes
+
+* **resizeable:** dont allow events to be resized to 0 height or width ([df410ae](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/df410ae)), closes [#287](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/287)
+
+
+
+<a name="0.18.8"></a>
+## [0.18.8](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.7...v0.18.8) (2016-02-13)
+
+
+### Features
+
+* **dayView:** allow external events to be dropped on the day view ([9b937b1](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/9b937b1)), closes [#284](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/284)
+* **weekView:** allow external events to be dropped on week column headers ([1ea99a3](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/1ea99a3))
+
+
+
+<a name="0.18.7"></a>
+## [0.18.7](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.6...v0.18.7) (2016-02-10)
+
+
+### Bug Fixes
+
+* start watchers after templates have been loaded ([b5621df](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/b5621df))
+
+
+
+<a name="0.18.6"></a>
+## [0.18.6](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.5...v0.18.6) (2016-02-09)
+
+
+### Bug Fixes
+
+* **moment:** allow any version of moment for compatibility with angular-moment ([f9cd661](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/f9cd661))
+
+
+
+<a name="0.18.5"></a>
+## [0.18.5](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.4...v0.18.5) (2016-02-09)
+
+
+### Bug Fixes
+
+* **templates:** ensure all custom templates are loaded before rendering the calendar ([01009ce](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/01009ce)), closes [#279](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/279)
+
+
+
+<a name="0.18.4"></a>
+## [0.18.4](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.3...v0.18.4) (2016-01-27)
+
+
+### Features
+
+* **onTimespanClick:** expose the cell that was clicked for the month or year view ([7184960](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/7184960)), closes [#270](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/270)
+
+
+
+<a name="0.18.3"></a>
+## [0.18.3](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.2...v0.18.3) (2016-01-22)
+
+
+### Bug Fixes
+
+* **events:** use lower z-index to prevent conflict with mdDialog ([5ef9369](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/5ef9369)), closes [#264](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/264)
+
+
+
+<a name="0.18.2"></a>
+## [0.18.2](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.1...v0.18.2) (2016-01-12)
+
+
+### Bug Fixes
+
+* mark all optional attributes as such for ng 1.3.x compatibility ([20ed32e](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/20ed32e)), closes [#259](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/259)
+
+
+
+<a name="0.18.1"></a>
+## [0.18.1](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.18.0...v0.18.1) (2016-01-09)
+
+
+### Bug Fixes
+
+* **week-view:** show recurring events in the weekview. Closes #252 ([4615973](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/4615973)), closes [#252](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/252)
+* **weekTitle:** Use isoWeek instead of week to fix tests. Closes #257 ([c594f39](https://github.com/mattlewis92/angular-bootstrap-calendar/commit/c594f39)), closes [#257](https://github.com/mattlewis92/angular-bootstrap-calendar/issues/257)
+
+
+
 <a name="0.18.0"></a>
 # [0.18.0](https://github.com/mattlewis92/angular-bootstrap-calendar/compare/0.17.6...v0.18.0) (2016-01-02)
 
