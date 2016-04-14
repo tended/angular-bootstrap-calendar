@@ -33,6 +33,19 @@ angular
 
     });
 
+    vm.onCreateTaskClicked = function(day, $event) {
+      var dayIndex = vm.view.indexOf(day);
+      vm.openDayIndex = dayIndex;
+      vm.openRowIndex = Math.floor(dayIndex / 7);
+      vm.cellIsOpen = true;
+
+      vm.onTimespanClick({
+        calendarDate: day.date.toDate(),
+        calendarCell: day,
+        $event: $event
+      });
+    };
+
     vm.dayClicked = function(day, dayClickedFirstRun, $event) {
 
       if (!dayClickedFirstRun) {
