@@ -68,7 +68,7 @@
     "start": "concurrently \"webpack-dev-server\" \"npm run test:watch\" \"open http://localhost:8000\"",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "commit": "git-cz",
-    "release": "npm run build && npm run changelog"
+    "release": "npm run build && npm run changelog",
     "cp_tpls_to_tended": "cp ./dist/js/angular-bootstrap-calendar-tpls.js ./../../repo/tended/static/scripts/vendor/calendar/"
   },
   "config": {
