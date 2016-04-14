@@ -12,6 +12,7 @@ angular
       } else if (calendarConfig.dateFormatter === 'moment') {
         return moment(date).format(format);
       }
+      return date;
     }
 
     function adjustEndDateFromStartDiff(oldStart, newStart, oldEnd) {
