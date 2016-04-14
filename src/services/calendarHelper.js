@@ -14,7 +14,6 @@ angular
       } else {
         throw new Error('Unknown date formatter: ' + calendarConfig.dateFormatter);
       }
-      return date;
     }
 
     function adjustEndDateFromStartDiff(oldStart, newStart, oldEnd) {
