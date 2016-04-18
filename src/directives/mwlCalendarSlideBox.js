@@ -30,6 +30,12 @@ angular
       link: function(scope, elm, attrs, ctrls) {
         scope.isMonthView = !!ctrls[0];
         scope.isYearView = !!ctrls[1];
+
+        // access manager from parent month controller
+        // uncertain why current scope's `manager` is always undefined
+        if (scope.isMonthView) {
+          scope.vm.calendarCtrl = ctrls[0].calendarCtrl;
+        }
       },
       scope: {
         manager: '=',
